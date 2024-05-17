@@ -1,0 +1,10 @@
+.billboard {
+    background-color: gray;
+    color: white;
+    padding: 0px 200px;
+    height: 48px;
+    /* width: 100vw; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
