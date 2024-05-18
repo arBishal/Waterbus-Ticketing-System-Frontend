@@ -1,6 +1,12 @@
+import React, {useCallback} from 'react';
+import {useHistory} from 'react-router-dom';
+
 import adminLoginStyle from "./adminLogin.module.css";
 
 export default function AdminLogin() {
+  const history = useHistory();
+  const handleClick = useCallback(() => history.push('/admin/dashboard'), [history]);
+
   return (
     <div className={adminLoginStyle.login}>
       <h1 className={adminLoginStyle.title}>Admin Login</h1>
@@ -14,6 +20,7 @@ export default function AdminLogin() {
         <span
           className={adminLoginStyle.button}
           style={{ marginTop: "16px" }}
+          onClick={handleClick}
         >
           Submit
         </span>
