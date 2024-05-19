@@ -20,7 +20,7 @@ const DateTime = () => {
 
       const formattedDateTime = now.toLocaleString('en-US', options);
       setDateTime(formattedDateTime);
-      console.log(formattedDateTime);
+      //console.log(formattedDateTime);
     }
 
     updateDateTime(); // Initial call
