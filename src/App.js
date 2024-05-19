@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import AdminLogin from "./components/admin/AdminLogin";
 import Billboard from "./components/Billboard";
+import AddWaterbus from "./components/admin/AddWaterbus";
 
 function App() {
   return (
@@ -18,12 +19,16 @@ function App() {
             <Home/>
           </Route>
           
-          <Route path="/admin/login">
+          <Route exact path="/admin/login">
             <AdminLogin />
           </Route>
 
-          <Route path="/admin/dashboard">
+          <Route exact path="/admin/dashboard">
             <AdminDashboard />
+          </Route>
+
+          <Route exact path="/admin/dashboard/add">
+            <AddWaterbus />
           </Route>
 
         </Switch>

@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 
-import adminLoginStyle from "./adminLogin.module.css";
+import adminLoginStyle from "./admin.module.css";
 
 export default function AdminLogin() {
   const [username, setUsername] = useState("");
@@ -12,6 +12,7 @@ export default function AdminLogin() {
     () => history.push("/admin/dashboard"),
     [history]
   );
+
   const handleLogin = () => {
     if (username !== password)
       window.alert("Username and Password doesn't match!");
@@ -19,7 +20,7 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className={adminLoginStyle.login}>
+    <div className={adminLoginStyle.page}>
       <h1 className={adminLoginStyle.title}>Admin Login</h1>
       <form className={adminLoginStyle.form}>
         <div className={adminLoginStyle.innerForm}>
