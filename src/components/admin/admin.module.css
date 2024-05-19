@@ -1,79 +1,101 @@
 .page {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
 }
 
 .title {
-    margin: 0;
-    font-size: 34px;
-    color: black;
-    font-weight: bold;
+  margin: 0;
+  font-size: 34px;
+  color: black;
+  font-weight: bold;
 }
 
 .form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 400px;
 }
 
 .innerForm {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
 }
 
 .input {
-    padding: 12px;
-    border: 1px solid gray;
-    border-radius: 4px;
+  padding: 12px;
+  border: 1px solid gray;
+  border-radius: 4px;
 }
 
 .dashboard {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
 }
 
 .button {
-    background-color: #3585FF;
-    color: white;
-    width: 200px;
-    padding: 16px;
-    border: none;
-    font-size: 16px;
-    border-radius: 4px;
-    text-align: center;
+  background-color: #3585ff;
+  color: white;
+  width: 200px;
+  padding: 16px;
+  border: none;
+  font-size: 16px;
+  border-radius: 4px;
+  text-align: center;
 }
 
 .button:hover {
-    background-color: #2575FF;
-    cursor: pointer;
+  background-color: #2575ff;
+  cursor: pointer;
 }
 
 .buttonGhost {
-    background-color: white;
-    color: #3585FF;
-    border: none;
-    font-size: 16px;
+  background-color: white;
+  color: #3585ff;
+  border: none;
+  font-size: 16px;
 }
 
 .buttonGhost:hover {
-    color: #2575FF;
-    cursor: pointer;
+  color: #2575ff;
+  cursor: pointer;
 }
 
 .buttonCluster {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  width: 80%;
+}
+
+.th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 12px 8px;
+  font-size: 18px;
+  background-color: whitesmoke;
+  position: sticky;
+  top: 0;
+}
+
+.td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
 }

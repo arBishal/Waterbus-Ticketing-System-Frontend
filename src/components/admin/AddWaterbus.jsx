@@ -75,7 +75,7 @@ export default function AddWaterbus() {
       if (response.ok) {
         console.log("response ok", waterbus);
         window.alert("Waterbus Added!");
-        // resetForm();
+        resetForm();
       } else {
         console.error("Failed to add waterbus", response.statusText);
       }
