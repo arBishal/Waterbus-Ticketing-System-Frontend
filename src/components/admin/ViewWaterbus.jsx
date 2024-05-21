@@ -44,7 +44,7 @@ export default function AdminViewWaterbus() {
               <td className={viewWaterbusStyle.td}>{waterbus.type}</td>
               <td className={viewWaterbusStyle.td}>{waterbus.category}</td>
               <td className={viewWaterbusStyle.td}>{waterbus.capacity}</td>
-              <td className={viewWaterbusStyle.td}>{waterbus.baseFare}</td>
+              <td className={viewWaterbusStyle.td}>{waterbus.basefare}</td>
             </tr>
           ))}
         </tbody>
