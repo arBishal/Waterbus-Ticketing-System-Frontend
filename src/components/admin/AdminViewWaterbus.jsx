@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import viewWaterbusStyle from "./admin.module.css";
 
-export default function ViewWaterbus() {
+export default function AdminViewWaterbus() {
   const [waterbusList, setWaterbusList] = useState([
     {
       id: 1,
