@@ -9,18 +9,15 @@ export default function AddWaterbus() {
   const [category, setCategory] = useState("");
   const [capacity, setCapacity] = useState();
   const [baseFare, setBaseFare] = useState({});
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     axios.get('http://localhost:8090/api/basefare')
       .then(response => {
         setBaseFare(response.data);
-        setLoading(false);
       })
       .catch(error => {
         setError(error);
-        setLoading(false);
       });
   }, []);
 

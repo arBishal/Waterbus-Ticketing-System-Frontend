@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
+
 import scheduleWaterbusStyle from "./admin.module.css";
 
 export default function ScheduleWaterbus() {
@@ -6,11 +8,63 @@ export default function ScheduleWaterbus() {
   const [departure, setDeparture] = useState("");
   const [destination, setDestination] = useState("");
   const [time, setTime] = useState();
+  const [waterbusList, setWaterbusList] = useState([]);
+  const [error, setError] = useState(null);
 
-  const wIds = [1, 2, 3, 4, 5];
   const stations = ["Gulshan", "Police Plaza", "Rampura", "Badda", "FDC"];
 
-  const handleSubmitSchedule = () => {};
+  useEffect(() => {
+    axios.get('http://localhost:8090/waterbus/getList')
+      .then(response => {
+        setWaterbusList(response.data);
+      })
+      .catch(error => {
+        setError(error);
+      });
+  }, []);
+
+  const handleSubmitSchedule = (e) => {
+    e.preventDefault();
+
+    const formData = {};
+    const formElements = e.target.elements;
+
+    console.log(formElements);
+
+    // Iterate over form elements and construct the formData object
+    for (let i = 0; i < formElements.length; i++) {
+      const element = formElements[i];
+      if (element.name) {
+        formData[element.name] = element.value;
+      }
+    }
+
+
+    fetch("http://localhost:8090/waterbus/schedule", {
+      method: "POST",
+      mode: 'cors',
+      cache: 'no-cache',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+    }).then(response => {
+      if (response.ok) {
+        console.log("response ok", formData);
+        window.alert("Schedule Added!");
+        resetForm();
+      } else {
+        console.error("Failed to add schedule", response.statusText);
+      }
+    }).catch(error => {
+      console.error("Error:", error);
+    });
+  };
+
+  const resetForm = () => {
+    setWId();
+    setDeparture("");
+    setDestination("");
+    setTime();
+  }
 
   return (
     <div className={scheduleWaterbusStyle.page}>
@@ -22,15 +76,15 @@ export default function ScheduleWaterbus() {
         <div className={scheduleWaterbusStyle.innerForm}>
           <label> Waterbus Id </label>
           <select
-            name="wid"
+            name="waterbusid"
             className={scheduleWaterbusStyle.input}
             value={wId}
             onChange={(e) => setWId(e.target.value)}
           >
             <option hidden>Select an Id</option>
-            {wIds.map((wId, index) => (
-              <option key={index} value={wId}>
-                {wId}
+            {waterbusList.map((waterbus, index) => (
+              <option key={index} value={waterbus.id}>
+                {waterbus.id}: {waterbus.name}
               </option>
             ))}
           </select>
