@@ -99,3 +99,15 @@
   text-align: left;
   padding: 8px;
 }
+
+.viewPage {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: start;
+  align-items: center;
+  height: 80vh;
+  padding: "24px";
+  box-sizing: border-box;
+  overflow: scroll;
+}
