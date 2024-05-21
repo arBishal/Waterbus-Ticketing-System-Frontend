@@ -7,6 +7,7 @@ import AdminLogin from "./components/admin/AdminLogin";
 import Billboard from "./components/Billboard";
 import AddWaterbus from "./components/admin/AddWaterbus";
 import ViewWaterbus from "./components/admin/ViewWaterbus";
+import ScheduleWaterbus from "./components/admin/ScheduleWaterbus";
 
 function App() {
   return (
@@ -34,6 +35,10 @@ function App() {
 
           <Route exact path="/admin/dashboard/view">
             <ViewWaterbus />
+          </Route>
+
+          <Route exact path="/admin/dashboard/schedule">
+            <ScheduleWaterbus />
           </Route>
 
         </Switch>

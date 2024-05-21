@@ -157,9 +157,8 @@ export default function AddWaterbus() {
             href="http://localhost:3000/admin/dashboard/view"
             className={addWaterbusStyle.buttonGhost}
             style={{ marginTop: "16px" }}
-            onClick={handleSubmitAdd}
           >
-            View List
+            View Vessel List
           </a>
 
           <button
