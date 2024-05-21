@@ -1,176 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 import viewWaterbusStyle from "./admin.module.css";
 
 export default function AdminViewWaterbus() {
-  const [waterbusList, setWaterbusList] = useState([
-    {
-      id: 1,
-      name: "MV Habijabi",
-      type: "nonac",
-      category: "luxary",
-      capacity: "25",
-      basefare: "20",
-    },
-    {
-      id: 2,
-      name: "MV Hijibiji",
-      type: "ac",
-      category: "ordinary",
-      capacity: "30",
-      basefare: "25",
-    },
-    {
-      id: 3,
-      name: "MV Hagumutu",
-      type: "nonac",
-      category: "ordinary",
-      capacity: "25",
-      basefare: "20",
-    },
-    {
-      id: 4,
-      name: "MV Hishupishu",
-      type: "ac",
-      category: "luxury",
-      capacity: "30",
-      basefare: "25",
-    },
-    {
-      id: 1,
-      name: "MV Habijabi",
-      type: "nonac",
-      category: "luxary",
-      capacity: "25",
-      basefare: "20",
-    },
-    {
-      id: 2,
-      name: "MV Hijibiji",
-      type: "ac",
-      category: "ordinary",
-      capacity: "30",
-      basefare: "25",
-    },
-    {
-      id: 3,
-      name: "MV Hagumutu",
-      type: "nonac",
-      category: "ordinary",
-      capacity: "25",
-      basefare: "20",
-    },
-    {
-      id: 4,
-      name: "MV Hishupishu",
-      type: "ac",
-      category: "luxury",
-      capacity: "30",
-      basefare: "25",
-    },
-    {
-      id: 1,
-      name: "MV Habijabi",
-      type: "nonac",
-      category: "luxary",
-      capacity: "25",
-      basefare: "20",
-    },
-    {
-      id: 2,
-      name: "MV Hijibiji",
-      type: "ac",
-      category: "ordinary",
-      capacity: "30",
-      basefare: "25",
-    },
-    {
-      id: 3,
-      name: "MV Hagumutu",
-      type: "nonac",
-      category: "ordinary",
-      capacity: "25",
-      basefare: "20",
-    },
-    {
-      id: 4,
-      name: "MV Hishupishu",
-      type: "ac",
-      category: "luxury",
-      capacity: "30",
-      basefare: "25",
-    },
-    {
-      id: 1,
-      name: "MV Habijabi",
-      type: "nonac",
-      category: "luxary",
-      capacity: "25",
-      basefare: "20",
-    },
-    {
-      id: 2,
-      name: "MV Hijibiji",
-      type: "ac",
-      category: "ordinary",
-      capacity: "30",
-      basefare: "25",
-    },
-    {
-      id: 3,
-      name: "MV Hagumutu",
-      type: "nonac",
-      category: "ordinary",
-      capacity: "25",
-      basefare: "20",
-    },
-    {
-      id: 4,
-      name: "MV Hishupishu",
-      type: "ac",
-      category: "luxury",
-      capacity: "30",
-      basefare: "25",
-    },
-    {
-      id: 1,
-      name: "MV Habijabi",
-      type: "nonac",
-      category: "luxary",
-      capacity: "25",
-      basefare: "20",
-    },
-    {
-      id: 2,
-      name: "MV Hijibiji",
-      type: "ac",
-      category: "ordinary",
-      capacity: "30",
-      basefare: "25",
-    },
-    {
-      id: 3,
-      name: "MV Hagumutu",
-      type: "nonac",
-      category: "ordinary",
-      capacity: "25",
-      basefare: "20",
-    },
-    {
-      id: 4,
-      name: "MV Hishupishu",
-      type: "ac",
-      category: "luxury",
-      capacity: "30",
-      basefare: "25",
-    },
-  ]);
+
+  const [waterbusList, setWaterbusList] = useState();
+  const [error, setError] = useState();
+
+  useEffect(() => {
+    axios.get('http://localhost:8090/waterbus/getList')
+      .then(response => {
+        setWaterbusList(response.data);
+      })
+      .catch(error => {
+        setError(error);
+      });
+  }, []);
 
   return (
     <div
       className={viewWaterbusStyle.viewPage}
       style={{
-        
+
       }}
     >
       <table className={viewWaterbusStyle.table}>
@@ -185,14 +37,14 @@ export default function AdminViewWaterbus() {
           </tr>
         </thead>
         <tbody>
-          {waterbusList.map((waterbus, index) => (
+          {waterbusList?.map((waterbus, index) => (
             <tr className={viewWaterbusStyle.tr} key={index}>
               <td className={viewWaterbusStyle.td}>{waterbus.id}</td>
               <td className={viewWaterbusStyle.td}>{waterbus.name}</td>
               <td className={viewWaterbusStyle.td}>{waterbus.type}</td>
               <td className={viewWaterbusStyle.td}>{waterbus.category}</td>
               <td className={viewWaterbusStyle.td}>{waterbus.capacity}</td>
-              <td className={viewWaterbusStyle.td}>{waterbus.basefare}</td>
+              <td className={viewWaterbusStyle.td}>{waterbus.baseFare}</td>
             </tr>
           ))}
         </tbody>
