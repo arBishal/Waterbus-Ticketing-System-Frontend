@@ -21,10 +21,8 @@ export default function AdminViewWaterbus() {
   return (
     <div
       className={viewWaterbusStyle.viewPage}
-      style={{
-
-      }}
     >
+        <h1> Waterbus List </h1>
       <table className={viewWaterbusStyle.table}>
         <thead>
           <tr>
