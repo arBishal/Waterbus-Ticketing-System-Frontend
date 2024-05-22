@@ -9,6 +9,7 @@ import AddWaterbus from "./components/admin/AddWaterbus";
 import ViewWaterbus from "./components/admin/ViewWaterbus";
 import ScheduleWaterbus from "./components/admin/ScheduleWaterbus";
 import ViewSchedule from "./components/admin/ViewSchedule";
+import TicketingGulshan from "./components/user/TicketingGulshan";
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
           <Route exact path="/">
             <Home/>
           </Route>
+          
+          {/* admin side */}
           
           <Route exact path="/admin/login">
             <AdminLogin />
@@ -44,6 +47,12 @@ function App() {
 
           <Route exact path="/admin/dashboard/view-schedule">
             <ViewSchedule />
+          </Route>
+
+          {/* user side */}
+
+          <Route exact path="/user/gulshan">
+            <TicketingGulshan />
           </Route>
 
         </Switch>
