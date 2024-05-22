@@ -33,7 +33,7 @@ export default function ScheduleWaterbus() {
       .catch(error => {
         setError(error);
       });
-  }, []);
+  });
 
   const handleSubmitSchedule = (e) => {
     e.preventDefault();
@@ -41,7 +41,7 @@ export default function ScheduleWaterbus() {
     const formData = {};
     const formElements = e.target.elements;
 
-    console.log(formElements);
+    console.log("schedule list", scheduleList);
 
     // Iterate over form elements and construct the formData object
     for (let i = 0; i < formElements.length; i++) {
