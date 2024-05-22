@@ -12,7 +12,7 @@ export default function AdminDashboard () {
       [history]
     );
 
-    const handleClickView = useCallback(
+    const handleClickViewWaterbus = useCallback(
         () => history.push("/admin/dashboard/view-waterbus"),
         [history]
       );
@@ -21,12 +21,18 @@ export default function AdminDashboard () {
         () => history.push("/admin/dashboard/schedule"),
         [history]
       );
+      
+    const handleClickViewSchedule = useCallback(
+      () => history.push("/admin/dashboard/view-schedule"),
+      [history]
+    );
 
     return (
         <div className={adminDashboardStyle.dashboard}>
             <span className={adminDashboardStyle.button} onClick={handleClickAdd}> Add a Waterbus </span>
-            <span className={adminDashboardStyle.button} onClick={handleClickView}> View Waterbuses </span>
+            <span className={adminDashboardStyle.button} onClick={handleClickViewWaterbus}> View Waterbuses </span>
             <span className={adminDashboardStyle.button} onClick={handleClickSchedule}> Scedule a Waterbus </span>
+            <span className={adminDashboardStyle.button} onClick={handleClickViewSchedule}> View Schedules </span>
             <span className={adminDashboardStyle.button}> Cancel a Trip </span>
             <span className={adminDashboardStyle.button}> Billing Statements </span>
 
