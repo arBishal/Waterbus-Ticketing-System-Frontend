@@ -9,7 +9,9 @@ export default function ScheduleWaterbus() {
   const [destination, setDestination] = useState("");
   const [time, setTime] = useState();
   const [waterbusList, setWaterbusList] = useState([]);
+  const [scheduleList, setScheduleList] = useState(null);
   const [error, setError] = useState(null);
+
 
   const stations = ["Gulshan", "Police Plaza", "Rampura", "Badda", "FDC"];
 
@@ -17,6 +19,16 @@ export default function ScheduleWaterbus() {
     axios.get('http://localhost:8090/waterbus/getList')
       .then(response => {
         setWaterbusList(response.data);
+      })
+      .catch(error => {
+        setError(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios.get('http://localhost:8090/waterbus/getSchedule')
+      .then(response => {
+        setScheduleList(response.data);
       })
       .catch(error => {
         setError(error);
@@ -39,16 +51,39 @@ export default function ScheduleWaterbus() {
       }
     }
 
+    const getMaxTripId = (arr) => {
+      if(arr.length === 0) return 0;
+      let maxTripId = arr[0].tripid; // Initialize with the first trip id
+      for (let i = 1; i < arr.length; i++) {
+        if (arr[i].tripid > maxTripId) {
+          maxTripId = arr[i].tripid; // Update maxTripId if the current tripid is greater
+        }
+        console.log("current max", maxTripId);
+      }
+      return maxTripId;
+    }
+    
+    // Find the maximum trip id
+    const maxTripId = getMaxTripId(scheduleList);
+
+    console.log("maxTripId", maxTripId);
+
+    const schedule = {
+      ...formData,
+      tripid: maxTripId
+    }
+
+    console.log("schedule", schedule);
 
     fetch("http://localhost:8090/waterbus/schedule", {
       method: "POST",
       mode: 'cors',
       cache: 'no-cache',
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData)
+      body: JSON.stringify(schedule)
     }).then(response => {
       if (response.ok) {
-        console.log("response ok", formData);
+        console.log("response ok", schedule);
         window.alert("Schedule Added!");
         resetForm();
       } else {
