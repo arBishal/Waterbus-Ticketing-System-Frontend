@@ -17,14 +17,6 @@ export default function AdminViewWaterbus() {
         setError(error);
       });
   }, []);
-
-//   const FilterSchedule = () => {
-//     const currentTime = new Date();
-  
-//     const filteredSchedule = scheduleList.filter(schedule => {
-//       const scheduleTime = new Date(schedule.time);
-//       return scheduleTime > currentTime;
-//     });
   
   return (
     <div

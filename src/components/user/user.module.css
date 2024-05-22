@@ -8,16 +8,16 @@
 }
 
 .section {
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: center;
-    width: 50%;
-    border: 1px solid #CCC;
-    padding: 24px;
-    gap: 16px;
-    height: 70vh;
-    overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  width: 50%;
+  border: 1px solid #ccc;
+  padding: 24px;
+  gap: 16px;
+  height: 70vh;
+  overflow-y: scroll;
 }
 
 .title {
@@ -71,4 +71,26 @@
 .button:hover {
   background-color: #2575ff;
   cursor: pointer;
+}
+
+.table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 12px 8px;
+  font-size: 18px;
+  background-color: whitesmoke;
+  position: sticky;
+  top: 0;
+}
+
+.td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
 }
