@@ -3,12 +3,19 @@ import axios from "axios";
 import ticketingStyle from "./user.module.css";
 
 export default function TicketingGulshan() {
-  const [departure, setDeparture] = useState("gulshan");
+  const [departure, setDeparture] = useState("Gulshan");
   const [destination, setDestination] = useState("");
   const [type, setType] = useState("");
   const [time, setTime] = useState();
   const [person, setPerson] = useState();
   const [scheduleList, setScheduleList] = useState([]);
+  const [filteredSchedule, setFilteredSchedule] = useState([]);
+  const [ticket, setTicket] = useState({
+    departure: "",
+    destination: "",
+    time: "",
+    tripid: ""
+  });
   const [verbiage, setVerbiage] = useState(
     "Please select criterias to see schedule."
   );
@@ -16,14 +23,21 @@ export default function TicketingGulshan() {
 
   const stations = ["Gulshan", "Police Plaza", "Rampura", "Badda", "FDC"];
 
-  const handleSubmitFilter = (e) => {
+  useEffect(() => {
+    axios.get('http://localhost:8090/waterbus/getSchedule')
+      .then(response => {
+        setScheduleList(response.data);
+      })
+      .catch(error => {
+        setError(error);
+      });
+  }, []);
 
+  const handleSubmitFilter = (e) => {
     e.preventDefault();
 
     const formData = {};
     const formElements = e.target.elements;
-
-    console.log(formElements);
 
     // Iterate over form elements and construct the formData object
     for (let i = 0; i < formElements.length; i++) {
@@ -33,25 +47,34 @@ export default function TicketingGulshan() {
       }
     }
 
-    axios
-      .get("http://localhost:8090/waterbus/getSchedule")
-      .then((response) => {
-        setScheduleList(response.data);
-      })
-      .catch((error) => {
-        setError(error);
-      });
+    console.log("formdata", formData);
 
-      scheduleList = scheduleList.filter((schedule) => {
-        const scheduleTime = new Date(schedule.time);
-        return (scheduleTime > formData.time) & (schedule.departure === departure);
-      });
+    console.log("schedulelist", scheduleList);
 
-      if(scheduleList.length === 0) setVerbiage("No schedule found! Please try again.") 
+    console.log("formdata time", formData.time);
+    console.log("schedulelist time", scheduleList[0].time);
+
+    setFilteredSchedule(scheduleList.filter((schedule) => {
+      return (schedule.time > formData.time) & (schedule.departure === departure);
+    }));
+
+    console.log("filteredscherdule", filteredSchedule);
+
+    if(filteredSchedule.length === 0) setVerbiage("No schedule found! Please try again.")
+
+    console.log("verbiage", verbiage);
   };
 
-  const handleSubmitBuy = () => {
-
+  const handleSubmitBuy = (e) => {
+    const tr = e.target.parentElement;
+    const tds = Array.from(tr.getElementsByTagName("td"));
+    console.log(tds[0].textContent);
+    setTicket({
+      departure: tds[1].textContent,
+      destination: tds[2].textContent,
+      time: tds[3].textContent,
+      tripid: tds[4].textContent
+    })
   };
 
   return (
@@ -99,6 +122,7 @@ export default function TicketingGulshan() {
               onChange={(e) => setType(e.target.value)}
               required
             >
+              <option hidden value="">Select Type</option>
               <option value="ac">AC</option>
               <option value="nonac">Non-AC</option>
             </select>
@@ -143,7 +167,7 @@ export default function TicketingGulshan() {
       <div className={ticketingStyle.section}>
         <h1 className={ticketingStyle.title}> Available Schedule </h1>
         <form onSubmit={handleSubmitBuy}>
-          {scheduleList.length === 0 ? (
+          {filteredSchedule.length === 0 ? (
             <p> {verbiage} </p>
           ) : (
             <table className={ticketingStyle.table}>
@@ -153,10 +177,11 @@ export default function TicketingGulshan() {
                   <th className={ticketingStyle.th}>Departure</th>
                   <th className={ticketingStyle.th}>Destination</th>
                   <th className={ticketingStyle.th}>Time</th>
+                  <th className={ticketingStyle.th}>Trip Id</th>
                 </tr>
               </thead>
               <tbody>
-                {scheduleList?.map((schedule, index) => (
+                {filteredSchedule?.map((schedule, index) => (
                   <tr
                     key={index}
                     style={{ cursor: "pointer" }}
@@ -166,6 +191,7 @@ export default function TicketingGulshan() {
                     <td className={ticketingStyle.td}>{schedule.departure}</td>
                     <td className={ticketingStyle.td}>{destination}</td>
                     <td className={ticketingStyle.td}>{schedule.time}</td>
+                    <td className={ticketingStyle.td}>{schedule.tripid}</td>
                   </tr>
                 ))}
               </tbody>
