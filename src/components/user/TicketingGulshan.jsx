@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { jsPDF } from 'jspdf';
+
 import ticketingStyle from "./user.module.css";
 
 export default function TicketingGulshan() {
@@ -68,14 +70,20 @@ export default function TicketingGulshan() {
   const handleSubmitBuy = (e) => {
     const tr = e.target.parentElement;
     const tds = Array.from(tr.getElementsByTagName("td"));
-    console.log(tds[0].textContent);
-    setTicket({
-      departure: tds[1].textContent,
-      destination: tds[2].textContent,
-      time: tds[3].textContent,
-      tripid: tds[4].textContent
-    })
+
+    const doc = new jsPDF();
+    doc.text(`Waterbus Ticketing System`, 10, 10);
+    doc.text(`You will depart from: ${tds[1].textContent}`, 10, 30);
+    doc.text(`You are destined to: ${tds[2].textContent}`, 10, 40);
+    doc.text(`You will board at: ${tds[3].textContent}`, 10, 50);
+    doc.text(`Your Trip Id is: ${tds[4].textContent}`, 10, 60);
+
+    doc.save('document.pdf');
   };
+
+  const createPDF = (ticket) => {
+    
+  }
 
   return (
     <div className={ticketingStyle.page}>
