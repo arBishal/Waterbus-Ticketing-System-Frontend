@@ -151,7 +151,7 @@ export default function AddWaterbus() {
           </a>
 
           <a
-            href="http://localhost:3000/admin/dashboard/view"
+            href="http://localhost:3000/admin/dashboard/view-waterbus"
             className={addWaterbusStyle.buttonGhost}
             style={{ marginTop: "16px" }}
           >

@@ -13,7 +13,7 @@ export default function AdminDashboard () {
     );
 
     const handleClickView = useCallback(
-        () => history.push("/admin/dashboard/view"),
+        () => history.push("/admin/dashboard/view-waterbus"),
         [history]
       );
 

@@ -182,7 +182,7 @@ export default function ScheduleWaterbus() {
             className={scheduleWaterbusStyle.buttonGhost}
             style={{ marginTop: "16px" }}
           >
-            View Vessel List
+            View Waterbus List
           </a>
 
           <button

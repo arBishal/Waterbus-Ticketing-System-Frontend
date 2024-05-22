@@ -33,7 +33,7 @@ function App() {
             <AddWaterbus />
           </Route>
 
-          <Route exact path="/admin/dashboard/view">
+          <Route exact path="/admin/dashboard/view-waterbus">
             <ViewWaterbus />
           </Route>
 
