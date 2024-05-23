@@ -10,6 +10,10 @@ import ViewWaterbus from "./components/admin/ViewWaterbus";
 import ScheduleWaterbus from "./components/admin/ScheduleWaterbus";
 import ViewSchedule from "./components/admin/ViewSchedule";
 import TicketingGulshan from "./components/user/TicketingGulshan";
+import TicketingPolicePlaza from "./components/user/TicketingPolicePlaza";
+import TicketingRampura from "./components/user/TicketingRampura";
+import TicketingBadda from "./components/user/TicketingBadda";
+import TicketingFDC from "./components/user/TicketingFDC";
 
 function App() {
   return (
@@ -53,6 +57,22 @@ function App() {
 
           <Route exact path="/user/gulshan">
             <TicketingGulshan />
+          </Route>
+
+          <Route exact path="/user/policeplaza">
+            <TicketingPolicePlaza />
+          </Route>
+
+          <Route exact path="/user/rampura">
+            <TicketingRampura />
+          </Route>
+
+          <Route exact path="/user/badda">
+            <TicketingBadda />
+          </Route>
+
+          <Route exact path="/user/fdc">
+            <TicketingFDC />
           </Route>
 
         </Switch>

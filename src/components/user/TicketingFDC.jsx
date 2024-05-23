@@ -5,8 +5,8 @@ import { jsPDF } from 'jspdf';
 import ticketingStyle from "./user.module.css";
 import Modal from "./Modal";
 
-export default function TicketingGulshan() {
-  const [departure, setDeparture] = useState("Gulshan");
+export default function TicketingFDC() {
+  const [departure, setDeparture] = useState("FDC");
   const [destination, setDestination] = useState("");
   const [person, setPerson] = useState();
   const [scheduleList, setScheduleList] = useState([]);
@@ -63,7 +63,7 @@ export default function TicketingGulshan() {
       }
     }
 
-    const direction = 1;
+    const direction = -1;
 
     setFilteredSchedule(scheduleList.filter((schedule) => {
       const now = new Date();
@@ -175,7 +175,7 @@ export default function TicketingGulshan() {
       <div className={ticketingStyle.page}>
         {/* filtering form */}
         <div className={ticketingStyle.section} style={{ overflow: "hidden" }}>
-          <h1 className={ticketingStyle.title}> Station: Gulshan</h1>
+          <h1 className={ticketingStyle.title}> Station: FDC</h1>
           <form className={ticketingStyle.form} onSubmit={handleSubmitFilter}>
             <div className={ticketingStyle.innerForm}>
               <label> Departure From </label>
@@ -187,7 +187,7 @@ export default function TicketingGulshan() {
                 onChange={(e) => setDeparture(e.target.value)}
                 required
               >
-                <option value={departure}>Gulshan</option>
+                <option value={departure}>FDC</option>
               </select>
 
               <label> Destination At </label>
