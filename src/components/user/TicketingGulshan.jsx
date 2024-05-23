@@ -23,7 +23,7 @@ export default function TicketingGulshan() {
   );
   const [error, setError] = useState("");
 
-  const stations = ["Gulshan", "Police Plaza", "Rampura", "Badda", "FDC"];
+  const stations = ["Police Plaza", "Rampura", "Badda", "FDC"];
 
   useEffect(() => {
     axios.get('http://localhost:8090/waterbus/getSchedule')
@@ -56,13 +56,43 @@ export default function TicketingGulshan() {
     console.log("formdata time", formData.time);
     console.log("schedulelist time", scheduleList[0].time);
 
+    const direction = 1;
+
     setFilteredSchedule(scheduleList.filter((schedule) => {
-      return (schedule.time > formData.time) & (schedule.departure === departure);
+      const now = new Date();
+
+      // Extract the hours and minutes
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+
+      // Format hours and minutes as a 24-hour format string (HH:mm)
+      const currTime = (hours < 10 ? '0' : '') + hours + ':' + (minutes < 10 ? '0' : '') + minutes;
+      console.log("currtime", currTime);
+      console.log("scheduletime", schedule.time);
+
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      let mm = today.getMonth() + 1;
+      let dd = today.getDate();
+
+      if (dd < 10) dd = '0' + dd;
+      if (mm < 10) mm = '0' + mm;
+
+      const currDate = dd + '-' + mm + '-' + yyyy;
+
+      console.log("currdate", currDate);
+      console.log("scheduledate", schedule.date);
+
+      if (direction > 0)
+        return (schedule.date === currDate) & (schedule.time > currTime) & (schedule.departure === departure) & schedule.dir === "UP";
+      else
+        return (schedule.date === currDate) & (schedule.time > currTime) & (schedule.departure === departure) & schedule.dir === "DOWN";
+
     }));
 
     console.log("filteredscherdule", filteredSchedule);
 
-    if(filteredSchedule.length === 0) setVerbiage("No schedule found! Please try again.")
+    if (filteredSchedule.length === 0) setVerbiage("No schedule found! Please try again.")
 
     console.log("verbiage", verbiage);
   };
@@ -82,7 +112,7 @@ export default function TicketingGulshan() {
   };
 
   const createPDF = (ticket) => {
-    
+
   }
 
   return (
@@ -122,29 +152,6 @@ export default function TicketingGulshan() {
               ))}
             </select>
 
-            <label> Select Type </label>
-            <select
-              name="type"
-              className={ticketingStyle.input}
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-              required
-            >
-              <option hidden value="">Select Type</option>
-              <option value="ac">AC</option>
-              <option value="nonac">Non-AC</option>
-            </select>
-
-            <label> Choose Time </label>
-            <input
-              type="time"
-              name="time"
-              className={ticketingStyle.input}
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
-              required
-            />
-
             <label> Number of Passengers </label>
             <select
               name="person"
@@ -153,7 +160,7 @@ export default function TicketingGulshan() {
               onChange={(e) => setPerson(e.target.value)}
               required
             >
-              <option selected value="">
+              <option selected hidden value="">
                 Choose number of passangers
               </option>
               <option value="1">1</option>
