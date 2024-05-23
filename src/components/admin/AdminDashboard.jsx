@@ -27,13 +27,18 @@ export default function AdminDashboard () {
       [history]
     );
 
+    const handleClickAnnouncement = useCallback(
+      () => history.push("/admin/dashboard/announcement"),
+      [history]
+    );
+
     return (
         <div className={adminDashboardStyle.dashboard}>
             <span className={adminDashboardStyle.button} onClick={handleClickAdd}> Add a Waterbus </span>
             <span className={adminDashboardStyle.button} onClick={handleClickViewWaterbus}> View Waterbuses </span>
             <span className={adminDashboardStyle.button} onClick={handleClickSchedule}> Scedule a Waterbus </span>
             <span className={adminDashboardStyle.button} onClick={handleClickViewSchedule}> View Schedules </span>
-            <span className={adminDashboardStyle.button}> Cancel a Trip </span>
+            <span className={adminDashboardStyle.button} onClick={handleClickAnnouncement}> Make Announcement </span>
             <span className={adminDashboardStyle.button}> Billing Statements </span>
 
         </div>

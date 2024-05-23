@@ -14,6 +14,7 @@ import TicketingPolicePlaza from "./components/user/TicketingPolicePlaza";
 import TicketingRampura from "./components/user/TicketingRampura";
 import TicketingBadda from "./components/user/TicketingBadda";
 import TicketingFDC from "./components/user/TicketingFDC";
+import MakeAnnouncement from "./components/admin/MakeAnnouncement";
 
 function App() {
   return (
@@ -51,6 +52,10 @@ function App() {
 
           <Route exact path="/admin/dashboard/view-schedule">
             <ViewSchedule />
+          </Route>
+
+          <Route exact path="/admin/dashboard/announcement">
+            <MakeAnnouncement />
           </Route>
 
           {/* user side */}
