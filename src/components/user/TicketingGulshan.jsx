@@ -8,8 +8,6 @@ import Modal from "./Modal";
 export default function TicketingGulshan() {
   const [departure, setDeparture] = useState("Gulshan");
   const [destination, setDestination] = useState("");
-  const [type, setType] = useState("");
-  const [time, setTime] = useState();
   const [person, setPerson] = useState();
   const [scheduleList, setScheduleList] = useState([]);
   const [filteredSchedule, setFilteredSchedule] = useState([]);
@@ -26,6 +24,18 @@ export default function TicketingGulshan() {
   const [error, setError] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [response, setResponse] = useState();
+  const [issue, setIssue] = useState({
+    category: "",
+    date: "",
+    departure: "",
+    destination: "",
+    seat_count: "",
+    ticket_fare: "",
+    time: "",
+    type: "",
+    wbid: "",
+    wbname: ""
+  });
 
   const stations = ["Police Plaza", "Rampura", "Badda", "FDC"];
 
@@ -111,6 +121,8 @@ export default function TicketingGulshan() {
       setError(err.message);
     }
 
+    setTimeout(issueTicket(ticket, response), 1000);
+
     setShowModal(true);
   };
 
@@ -126,6 +138,37 @@ export default function TicketingGulshan() {
     doc.text(`Time: ${ticket.time}`, 10, 90);
     doc.save('document.pdf');
   }
+
+  const issueTicket = (ticket, response) => {
+    setIssue({
+      category: response.category,
+      date: "",
+      departure: ticket.departure,
+      destination: ticket.destination,
+      seat_count: person,
+      ticket_fare: response.basefare,
+      time: ticket.time,
+      type: response.type,
+      wbid: response.id,
+      wbname: response.name
+    });
+
+    fetch("http://localhost:8090/ticket/issue", {
+      method: "POST",
+      mode: 'cors',
+      cache: 'no-cache',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(issue)
+    }).then(response => {
+      if (response.ok) {
+        console.log("response ok", issue);
+      } else {
+        console.error("Failed!", response.statusText);
+      }
+    }).catch(error => {
+      console.error("Error:", error);
+    });
+  };
 
   return (
     <>
@@ -235,20 +278,20 @@ export default function TicketingGulshan() {
         showModal &&
         (
           <Modal onClose={() => setShowModal(false)}>
-            
-              <div>
-                <h3>This ticket will cost: {response.basefare} BDT</h3>
-                <p>Waterbus Id: {response.id}</p>
-                <p>Waterbus Name: {response.name}</p>
-                <p>Category: {response.category}</p>
-                <p>Type: {response.type}</p>
-                <p>Departure: {ticket.departure}</p>
-                <p>Destination: {ticket.destination}</p>
-                <p>Time: {ticket.time}</p>
 
-              </div>
-              <span className={ticketingStyle.button} onClick={print} style={{ marginBottom: "8px" }}>Agree and Print</span>
-            
+            <div>
+              <h3>This ticket will cost: {response.basefare} BDT</h3>
+              <p>Waterbus Id: {response.id}</p>
+              <p>Waterbus Name: {response.name}</p>
+              <p>Category: {response.category}</p>
+              <p>Type: {response.type}</p>
+              <p>Departure: {ticket.departure}</p>
+              <p>Destination: {ticket.destination}</p>
+              <p>Time: {ticket.time}</p>
+
+            </div>
+            <span className={ticketingStyle.button} onClick={print} style={{ marginBottom: "8px" }}>Agree and Print</span>
+
           </Modal>
         )
       }
