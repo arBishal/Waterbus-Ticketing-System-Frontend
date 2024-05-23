@@ -24,6 +24,7 @@ export default function TicketingGulshan() {
   );
   const [error, setError] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [response, setResponse] = useState();
 
   const stations = ["Police Plaza", "Rampura", "Badda", "FDC"];
 
@@ -51,13 +52,6 @@ export default function TicketingGulshan() {
       }
     }
 
-    console.log("formdata", formData);
-
-    console.log("schedulelist", scheduleList);
-
-    console.log("formdata time", formData.time);
-    console.log("schedulelist time", scheduleList[0].time);
-
     const direction = 1;
 
     setFilteredSchedule(scheduleList.filter((schedule) => {
@@ -69,8 +63,6 @@ export default function TicketingGulshan() {
 
       // Format hours and minutes as a 24-hour format string (HH:mm)
       const currTime = (hours < 10 ? '0' : '') + hours + ':' + (minutes < 10 ? '0' : '') + minutes;
-      console.log("currtime", currTime);
-      console.log("scheduletime", schedule.time);
 
       const today = new Date();
       const yyyy = today.getFullYear();
@@ -82,8 +74,6 @@ export default function TicketingGulshan() {
 
       const currDate = dd + '-' + mm + '-' + yyyy;
 
-      console.log("currdate", currDate);
-      console.log("scheduledate", schedule.date);
 
       if (direction > 0)
         return (schedule.date === currDate) & (schedule.time > currTime) & (schedule.departure === departure) & schedule.dir === "UP";
@@ -99,20 +89,31 @@ export default function TicketingGulshan() {
     console.log("verbiage", verbiage);
   };
 
-  const handleSubmitBuy = (e) => {
+  const handleSubmitBuy = async (e) => {
     const tr = e.target.parentElement;
     const tds = Array.from(tr.getElementsByTagName("td"));
 
-    const doc = new jsPDF();
-    doc.text(`Waterbus Ticketing System`, 10, 10);
-    doc.text(`You will depart from: ${tds[1].textContent}`, 10, 30);
-    doc.text(`You are destined to: ${tds[2].textContent}`, 10, 40);
-    doc.text(`You will board at: ${tds[3].textContent}`, 10, 50);
-    doc.text(`Your Trip Id is: ${tds[4].textContent}`, 10, 60);
+    console.log("tds5", tds[5].textContent);
+
+    try {
+      const result = await axios.get(`http://localhost:8090/waterbus/${tds[5].textContent}`);
+      setResponse(result.data);
+    } catch (err) {
+      setError(err.message);
+    }
 
     setShowModal(true);
-    // doc.save('document.pdf');
   };
+
+  const print = () => {
+    const doc = new jsPDF();
+    doc.text(`Waterbus Ticketing System`, 10, 10);
+    doc.text(`Waterbus Id: ${response.id}`, 10, 30);
+    doc.text(`Waterbus Name: ${response.name}`, 10, 40);
+    doc.text(`Category: ${response.category}`, 10, 50);
+    doc.text(`Type: ${response.type}`, 10, 60);
+    doc.save('document.pdf');
+  }
 
   return (
     <>
@@ -193,6 +194,7 @@ export default function TicketingGulshan() {
                     <th className={ticketingStyle.th}>Destination</th>
                     <th className={ticketingStyle.th}>Time</th>
                     <th className={ticketingStyle.th}>Trip Id</th>
+                    <th className={ticketingStyle.th}>Waterbus Id</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -207,6 +209,7 @@ export default function TicketingGulshan() {
                       <td className={ticketingStyle.td}>{destination}</td>
                       <td className={ticketingStyle.td}>{schedule.time}</td>
                       <td className={ticketingStyle.td}>{schedule.tripid}</td>
+                      <td className={ticketingStyle.td}>{schedule.waterbusid}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -219,12 +222,18 @@ export default function TicketingGulshan() {
       {
         showModal &&
         (
-        <Modal onClose={() => setShowModal(false)}>
-          <div>
-            <h3>This ticket will cost: price</h3>
-            <span className={ticketingStyle.button}>Agree and Print</span>
-          </div>
-        </Modal>
+          <Modal onClose={() => setShowModal(false)}>
+            
+              <div>
+                <h3>This ticket will cost: {response.basefare} BDT</h3>
+                <p>Waterbus Id: {response.id}</p>
+                <p>Waterbus Name: {response.name}</p>
+                <p>Category: {response.category}</p>
+                <p>Type: {response.type}</p>
+              </div>
+              <span className={ticketingStyle.button} onClick={print} style={{ marginBottom: "8px" }}>Agree and Print</span>
+            
+          </Modal>
         )
       }
     </>
