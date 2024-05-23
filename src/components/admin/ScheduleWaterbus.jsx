@@ -130,15 +130,11 @@ export default function ScheduleWaterbus() {
             className={scheduleWaterbusStyle.input}
             value={departure}
             onChange={(e) => setDeparture(e.target.value)}
+            disabled
           >
-            <option hidden value="">
-              Select Departure
+            <option selected value="Gulshan">
+              Gulshan
             </option>
-            {stations.map((station, index) => (
-              <option key={index} value={station}>
-                {station}
-              </option>
-            ))}
           </select>
 
           <label> Destination At </label>
@@ -147,15 +143,11 @@ export default function ScheduleWaterbus() {
             className={scheduleWaterbusStyle.input}
             value={destination}
             onChange={(e) => setDestination(e.target.value)}
+            disabled
           >
-            <option hidden value="">
-              Select Destination
+            <option selected value="FDC">
+              FDC
             </option>
-            {stations.map((station, index) => (
-              <option key={index} value={station}>
-                {station}
-              </option>
-            ))}
           </select>
 
           <label> Choose Time </label>
@@ -178,7 +170,7 @@ export default function ScheduleWaterbus() {
           </a>
 
           <a
-            href="http://localhost:3000/admin/dashboard/view"
+            href="http://localhost:3000/admin/dashboard/view-schedule"
             className={scheduleWaterbusStyle.buttonGhost}
             style={{ marginTop: "16px" }}
           >
