@@ -289,8 +289,10 @@ export default function TicketingGulshan() {
               <p>Destination: {ticket.destination}</p>
               <p>Time: {ticket.time}</p>
 
+              <i>The Ticket has been issued. Click on the button to Print.</i>
+
             </div>
-            <span className={ticketingStyle.button} onClick={print} style={{ marginBottom: "8px" }}>Agree and Print</span>
+            <span className={ticketingStyle.button} onClick={print} style={{ marginBottom: "8px" }}> Print</span>
 
           </Modal>
         )
