@@ -3,6 +3,7 @@ import axios from "axios";
 import { jsPDF } from 'jspdf';
 
 import ticketingStyle from "./user.module.css";
+import Modal from "./Modal";
 
 export default function TicketingGulshan() {
   const [departure, setDeparture] = useState("Gulshan");
@@ -22,6 +23,7 @@ export default function TicketingGulshan() {
     "Please select criterias to see schedule."
   );
   const [error, setError] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const stations = ["Police Plaza", "Rampura", "Badda", "FDC"];
 
@@ -108,112 +110,123 @@ export default function TicketingGulshan() {
     doc.text(`You will board at: ${tds[3].textContent}`, 10, 50);
     doc.text(`Your Trip Id is: ${tds[4].textContent}`, 10, 60);
 
-    doc.save('document.pdf');
+    setShowModal(true);
+    // doc.save('document.pdf');
   };
 
-  const createPDF = (ticket) => {
-
-  }
-
   return (
-    <div className={ticketingStyle.page}>
-      {/* filtering form */}
-      <div className={ticketingStyle.section} style={{ overflow: "hidden" }}>
-        <h1 className={ticketingStyle.title}> Station: Gulshan</h1>
-        <form className={ticketingStyle.form} onSubmit={handleSubmitFilter}>
-          <div className={ticketingStyle.innerForm}>
-            <label> Departure From </label>
-            <select
-              disabled
-              name="departure"
-              className={ticketingStyle.input}
-              value={departure}
-              onChange={(e) => setDeparture(e.target.value)}
-              required
-            >
-              <option value={departure}>Gulshan</option>
-            </select>
+    <>
+      <div className={ticketingStyle.page}>
+        {/* filtering form */}
+        <div className={ticketingStyle.section} style={{ overflow: "hidden" }}>
+          <h1 className={ticketingStyle.title}> Station: Gulshan</h1>
+          <form className={ticketingStyle.form} onSubmit={handleSubmitFilter}>
+            <div className={ticketingStyle.innerForm}>
+              <label> Departure From </label>
+              <select
+                disabled
+                name="departure"
+                className={ticketingStyle.input}
+                value={departure}
+                onChange={(e) => setDeparture(e.target.value)}
+                required
+              >
+                <option value={departure}>Gulshan</option>
+              </select>
 
-            <label> Destination At </label>
-            <select
-              name="destination"
-              className={ticketingStyle.input}
-              value={destination}
-              onChange={(e) => setDestination(e.target.value)}
-              required
-            >
-              <option hidden value="">
-                Select Destination
-              </option>
-              {stations.map((station, index) => (
-                <option key={index} value={station}>
-                  {station}
+              <label> Destination At </label>
+              <select
+                name="destination"
+                className={ticketingStyle.input}
+                value={destination}
+                onChange={(e) => setDestination(e.target.value)}
+                required
+              >
+                <option hidden value="">
+                  Select Destination
                 </option>
-              ))}
-            </select>
-
-            <label> Number of Passengers </label>
-            <select
-              name="person"
-              className={ticketingStyle.input}
-              value={person}
-              onChange={(e) => setPerson(e.target.value)}
-              required
-            >
-              <option selected hidden value="">
-                Choose number of passangers
-              </option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-            </select>
-          </div>
-          <button
-            className={ticketingStyle.button}
-            style={{ marginTop: "16px", width: "148px" }}
-          >
-            Find Waterbus
-          </button>
-        </form>
-      </div>
-
-      {/* available schedule */}
-      <div className={ticketingStyle.section}>
-        <h1 className={ticketingStyle.title}> Available Schedule </h1>
-        <form onSubmit={handleSubmitBuy}>
-          {filteredSchedule.length === 0 ? (
-            <p> {verbiage} </p>
-          ) : (
-            <table className={ticketingStyle.table}>
-              <thead>
-                <tr>
-                  <th className={ticketingStyle.th}>Schedule Id</th>
-                  <th className={ticketingStyle.th}>Departure</th>
-                  <th className={ticketingStyle.th}>Destination</th>
-                  <th className={ticketingStyle.th}>Time</th>
-                  <th className={ticketingStyle.th}>Trip Id</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredSchedule?.map((schedule, index) => (
-                  <tr
-                    key={index}
-                    style={{ cursor: "pointer" }}
-                    onClick={handleSubmitBuy}
-                  >
-                    <td className={ticketingStyle.td}>{schedule.scheduleid}</td>
-                    <td className={ticketingStyle.td}>{schedule.departure}</td>
-                    <td className={ticketingStyle.td}>{destination}</td>
-                    <td className={ticketingStyle.td}>{schedule.time}</td>
-                    <td className={ticketingStyle.td}>{schedule.tripid}</td>
-                  </tr>
+                {stations.map((station, index) => (
+                  <option key={index} value={station}>
+                    {station}
+                  </option>
                 ))}
-              </tbody>
-            </table>
-          )}
-        </form>
+              </select>
+
+              <label> Number of Passengers </label>
+              <select
+                name="person"
+                className={ticketingStyle.input}
+                value={person}
+                onChange={(e) => setPerson(e.target.value)}
+                required
+              >
+                <option selected hidden value="">
+                  Choose number of passangers
+                </option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+            </div>
+            <button
+              className={ticketingStyle.button}
+              style={{ marginTop: "16px", width: "148px" }}
+            >
+              Find Waterbus
+            </button>
+          </form>
+        </div>
+
+        {/* available schedule */}
+        <div className={ticketingStyle.section}>
+          <h1 className={ticketingStyle.title}> Available Schedule </h1>
+          <form onSubmit={handleSubmitBuy}>
+            {filteredSchedule.length === 0 ? (
+              <p> {verbiage} </p>
+            ) : (
+              <table className={ticketingStyle.table}>
+                <thead>
+                  <tr>
+                    <th className={ticketingStyle.th}>Schedule Id</th>
+                    <th className={ticketingStyle.th}>Departure</th>
+                    <th className={ticketingStyle.th}>Destination</th>
+                    <th className={ticketingStyle.th}>Time</th>
+                    <th className={ticketingStyle.th}>Trip Id</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredSchedule?.map((schedule, index) => (
+                    <tr
+                      key={index}
+                      style={{ cursor: "pointer" }}
+                      onClick={handleSubmitBuy}
+                    >
+                      <td className={ticketingStyle.td}>{schedule.scheduleid}</td>
+                      <td className={ticketingStyle.td}>{schedule.departure}</td>
+                      <td className={ticketingStyle.td}>{destination}</td>
+                      <td className={ticketingStyle.td}>{schedule.time}</td>
+                      <td className={ticketingStyle.td}>{schedule.tripid}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </form>
+        </div>
       </div>
-    </div>
+
+      {
+        showModal &&
+        (
+        <Modal onClose={() => setShowModal(false)}>
+          <div>
+            <h3>This ticket will cost: price</h3>
+            <span className={ticketingStyle.button}>Agree and Print</span>
+          </div>
+        </Modal>
+        )
+      }
+    </>
   );
 }
