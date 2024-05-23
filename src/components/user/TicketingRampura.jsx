@@ -121,7 +121,9 @@ export default function TicketingRampura() {
       setError(err.message);
     }
 
-    setTimeout(issueTicket(ticket, response), 1000);
+    if(response !== undefined) {
+      setTimeout(issueTicket(ticket, response), 3000);
+    }
 
     setShowModal(true);
   };

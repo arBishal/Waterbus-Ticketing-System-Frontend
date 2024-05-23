@@ -121,7 +121,9 @@ export default function TicketingGulshan() {
       setError(err.message);
     }
 
-    setTimeout(issueTicket(ticket, response), 1000);
+    if(response !== undefined) {
+      setTimeout(issueTicket(ticket, response), 3000);
+    }
 
     setShowModal(true);
   };
@@ -140,6 +142,7 @@ export default function TicketingGulshan() {
   }
 
   const issueTicket = (ticket, response) => {
+    console.log("response inside issue", response);
     setIssue({
       category: response.category,
       date: "",
