@@ -17,7 +17,8 @@ export default function TicketingGulshan() {
     departure: "",
     destination: "",
     time: "",
-    tripid: ""
+    tripid: "",
+    waaterbusid: ""
   });
   const [verbiage, setVerbiage] = useState(
     "Please select criterias to see schedule."
@@ -95,6 +96,14 @@ export default function TicketingGulshan() {
 
     console.log("tds5", tds[5].textContent);
 
+    setTicket({
+      departure: tds[1].textContent,
+      destination: tds[2].textContent,
+      time: tds[3].textContent,
+      tripid: tds[4].textContent,
+      waaterbusid: tds[5].textContent
+    });
+
     try {
       const result = await axios.get(`http://localhost:8090/waterbus/${tds[5].textContent}`);
       setResponse(result.data);
@@ -112,6 +121,9 @@ export default function TicketingGulshan() {
     doc.text(`Waterbus Name: ${response.name}`, 10, 40);
     doc.text(`Category: ${response.category}`, 10, 50);
     doc.text(`Type: ${response.type}`, 10, 60);
+    doc.text(`Departure: ${ticket.departure}`, 10, 70);
+    doc.text(`Destination: ${ticket.destination}`, 10, 80);
+    doc.text(`Time: ${ticket.time}`, 10, 90);
     doc.save('document.pdf');
   }
 
@@ -230,6 +242,10 @@ export default function TicketingGulshan() {
                 <p>Waterbus Name: {response.name}</p>
                 <p>Category: {response.category}</p>
                 <p>Type: {response.type}</p>
+                <p>Departure: {ticket.departure}</p>
+                <p>Destination: {ticket.destination}</p>
+                <p>Time: {ticket.time}</p>
+
               </div>
               <span className={ticketingStyle.button} onClick={print} style={{ marginBottom: "8px" }}>Agree and Print</span>
             
